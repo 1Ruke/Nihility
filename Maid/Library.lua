@@ -2341,7 +2341,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 			Section:Toggle({Name = 'Keybind List', Default = false, Flag = 'Menu KeybindList', Callback = function(Bool) Library.KeybindListFrame.Visible = (Bool) end});
 			Section:Toggle({Name = 'Watermark', Default = false, Flag = 'Menu Watermark', Callback = function(Bool) pcall(function() Library.Watermark.Visible = Bool end); end}); --// Gay ass pcall </3
 			Section:Toggle({Name = 'Spin Esp Preview', Flag = 'Menu Spin Preview', Default = false});
-			Section:Slider({Name = 'Fps Cap', Flag = 'Menu Fps Cap', Min = 30, Max = 500, Default = getfpscap(), Interval = 1, Callback = function(Value) setfpscap(Value) end});
+			Section:Slider({Name = 'Fps Cap', Flag = 'Menu Fps Cap', Min = 30, Max = 500, Default = Getfpscap(), Interval = 1, Callback = function(Value) setfpscap(Value) end});
 			Section:ButtonHolder({});
 			Section:Button({Name = 'Rejoin', Callback = function()
 				cloneref(game:GetService('TeleportService')):TeleportToPlaceInstance(game.PlaceId, game.JobId, Client);
