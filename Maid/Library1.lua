@@ -3158,7 +3158,7 @@ local Wait = (task.wait);
 
 		function Library:MultiSection(Options)
 			local Cfg = {
-				Names = Options.names or {'First', 'Second', 'Third'}, 
+				Names = Options.Names or {'First', 'Second', 'Third'}, 
 				Sections = {},
 			}
 
