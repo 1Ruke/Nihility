@@ -1,6 +1,7 @@
---// Akira
+--// Nihility
 
 --// UserData
+
 --// Variables
 local InputService = cloneref(UserSettings().GetService(game, 'UserInputService'));
 local TweenService = cloneref(UserSettings().GetService(game, 'TweenService'));
@@ -67,11 +68,12 @@ local Setmetatable = clonefunction(setmetatable);
 local Tostring = (tostring);
 local Spawn = (task.spawn);
 local Wait = (task.wait);
+local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 500 else return getfpscap() end; end;
 --]]
 
 --// Library init
 	local Library = {
-		Directory = 'Akira';
+		Directory = 'Nihility';
 		Folders = {'/Assets', '/Assets/Fonts', '/Assets/Images', '/Configs'};
 		Flags = {};
 		ConfigFlags = {};
@@ -1952,467 +1954,469 @@ local Wait = (task.wait);
 			end;
 
 			--// Dock init
-				DockOutline = Library:Create('Frame', {
-					Parent = SGui,
-					-- Name = '',
-					Visible = true,
-					BorderColor3 = FromRgb(0, 0, 0),
-					AnchorPoint = NewVect2(0.5, 0),
-					Position = Dim2(0.5, 0, 0, 20),
-					Size = Dim2(0, 157, 0, 39),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Outline
-				});
+			DockOutline = Library:Create('Frame', {
+				Parent = SGui,
+				-- Name = '',
+				Visible = true,
+				BorderColor3 = FromRgb(0, 0, 0),
+				AnchorPoint = NewVect2(0.5, 0),
+				Position = Dim2(0.5, 0, 0, 20),
+				Size = Dim2(0, 157, 0, 39),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Outline
+			});
 
-				Library:ApplyTheme(DockOutline, 'Outline', 'BackgroundColor3');
-				DockOutline.Position = Dim2(0, DockOutline.AbsolutePosition.X, 0, DockOutline.AbsolutePosition.Y);
-				DockOutline.AnchorPoint = NewVect2(0, 0);
-				Library:DragThing(DockOutline);
+			Library:ApplyTheme(DockOutline, 'Outline', 'BackgroundColor3');
+			DockOutline.Position = Dim2(0, DockOutline.AbsolutePosition.X, 0, DockOutline.AbsolutePosition.Y);
+			DockOutline.AnchorPoint = NewVect2(0, 0);
+			Library:DragThing(DockOutline);
 
-				local DockInline = Library:Create('Frame', {
-					Parent = DockOutline,
-					-- Name = '',
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, -2, 1, -2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Inline
-				});
-				Library:ApplyTheme(DockInline, 'Inline', 'BackgroundColor3')
-				
-				local DockHolder = Library:Create('Frame', {
-					Parent = DockInline,
-					-- Name = '',
-					Size = Dim2(1, -2, 1, -2),
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = Themes[Library.UTheme].Outline,
-					BorderSizePixel = 0,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				});
-				Library:ApplyTheme(DockHolder, 'Outline', 'BackgroundColor3')
-				
-				local Accent = Library:Create('Frame', {
-					Parent = DockHolder,
-					-- Name = '',
-					Size = Dim2(1, 0, 0, 2),
-					BorderColor3 = FromRgb(0, 0, 0),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Accent
-				});
-				Library:ApplyTheme(Accent, 'Accent', 'BackgroundColor3')
-				--// Thins
-				local UIGradient = Library:Create('UIGradient', {
-					Parent = Accent,
-					-- Name = '',
-					Rotation = 180,
-					Transparency = NumSeq{NumKey(0, 1), NumKey(0.4, 0.75), NumKey(1, 0)},
-					Color = ColorSeq{ColorKey(0, FromRgb(255, 255, 255)), ColorKey(1, FromRgb(255, 255, 255))}
-				});
-				
-				local ButtonHolder = Library:Create('Frame', {
-					Parent = DockHolder,
-					-- Name = '',
-					BackgroundTransparency = 1,
-					Size = Dim2(1, 0, 1, 0),
-					BorderColor3 = FromRgb(0, 0, 0),
-					BorderSizePixel = 0,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				}); Library.DockHolder = ButtonHolder;
-				
-				local UIListLayout = Library:Create('UIListLayout', {
-					Parent = ButtonHolder,
-					-- Name = '',
-					Padding = NewDim(0, 5),
-					FillDirection = Enum.FillDirection.Horizontal,
-					SortOrder = Enum.SortOrder.LayoutOrder
-				});
-				
-				local UIPadding = Library:Create('UIPadding', {
-					Parent = ButtonHolder,
-					-- Name = '',
-					PaddingTop = NewDim(0, 6),
-					PaddingBottom = NewDim(0, 4),
-					PaddingRight = NewDim(0, 4),
-					PaddingLeft = NewDim(0, 4)
-				});
-						
-				local UIGradient = Library:Create('UIGradient', {
-					Parent = DockHolder,
-					-- Name = '',
-					Rotation = 90,
-					Color = ColorSeq{ColorKey(0, FromRgb(41, 41, 55)), ColorKey(1, FromRgb(35, 35, 47))}
-				});
-				Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
-			--// 
+			local DockInline = Library:Create('Frame', {
+				Parent = DockOutline,
+				-- Name = '',
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Inline
+			});
+			Library:ApplyTheme(DockInline, 'Inline', 'BackgroundColor3')
+			
+			local DockHolder = Library:Create('Frame', {
+				Parent = DockInline,
+				-- Name = '',
+				Size = Dim2(1, -2, 1, -2),
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = Themes[Library.UTheme].Outline,
+				BorderSizePixel = 0,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			});
+			Library:ApplyTheme(DockHolder, 'Outline', 'BackgroundColor3')
+			
+			local Accent = Library:Create('Frame', {
+				Parent = DockHolder,
+				-- Name = '',
+				Size = Dim2(1, 0, 0, 2),
+				BorderColor3 = FromRgb(0, 0, 0),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Accent
+			});
+			Library:ApplyTheme(Accent, 'Accent', 'BackgroundColor3')
+			
+			local UIGradient = Library:Create('UIGradient', {
+				Parent = Accent,
+				-- Name = '',
+				Rotation = 180,
+				Transparency = NumSeq{NumKey(0, 1), NumKey(0.4, 0.75), NumKey(1, 0)},
+				Color = ColorSeq{ColorKey(0, FromRgb(255, 255, 255)), ColorKey(1, FromRgb(255, 255, 255))}
+			});
+			
+			local ButtonHolder = Library:Create('Frame', {
+				Parent = DockHolder,
+				-- Name = '',
+				BackgroundTransparency = 1,
+				Size = Dim2(1, 0, 1, 0),
+				BorderColor3 = FromRgb(0, 0, 0),
+				BorderSizePixel = 0,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			}); Library.DockHolder = ButtonHolder;
+			
+			local UIListLayout = Library:Create('UIListLayout', {
+				Parent = ButtonHolder,
+				-- Name = '',
+				Padding = NewDim(0, 5),
+				FillDirection = Enum.FillDirection.Horizontal,
+				SortOrder = Enum.SortOrder.LayoutOrder
+			});
+			
+			local UIPadding = Library:Create('UIPadding', {
+				Parent = ButtonHolder,
+				-- Name = '',
+				PaddingTop = NewDim(0, 6),
+				PaddingBottom = NewDim(0, 4),
+				PaddingRight = NewDim(0, 4),
+				PaddingLeft = NewDim(0, 4)
+			});
+					
+			local UIGradient = Library:Create('UIGradient', {
+				Parent = DockHolder,
+				-- Name = '',
+				Rotation = 90,
+				Color = ColorSeq{ColorKey(0, FromRgb(41, 41, 55)), ColorKey(1, FromRgb(35, 35, 47))}
+			});
+			Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
+			--]]
 
 			--// Keybind List
-				local Outline = Library:Create('Frame', {
-					Parent = SGui,
-					-- Name = '',
-					Visible = false, 
-					Active = true,
-					Draggable = true, 
-					-- Position = Dim2(0, 0, 0, 200),
-					Position = Dim2(0, Center.X - 906, 0, 594);
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(0, 182, 0, 25),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Outline
-				});
-				Library:ApplyTheme(Outline, 'Outline', 'BackgroundColor3');
-				Library:DragThing(Outline);
-				Library:Resizeable(Outline);
-				Library.KeybindListFrame = Outline;
-                
-				local Inline = Library:Create('Frame', {
-					Parent = Outline,
-					-- Name = '',
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, -2, 1, -2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Inline
-				});
-				Library:ApplyTheme(Inline, 'Inline', 'BackgroundColor3')
+			local Outline = Library:Create('Frame', {
+				Parent = SGui,
+				-- Name = '',
+				Visible = false, 
+				Active = true,
+				Draggable = true, 
+				-- Position = Dim2(0, 0, 0, 200),
+				Position = Dim2(0, Center.X - 906, 0, 594);
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(0, 182, 0, 25),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Outline
+			});
+			Library:ApplyTheme(Outline, 'Outline', 'BackgroundColor3');
+			Library:DragThing(Outline);
+			Library:Resizeable(Outline);
+			Library.KeybindListFrame = Outline;
+			
+			local Inline = Library:Create('Frame', {
+				Parent = Outline,
+				-- Name = '',
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Inline
+			});
+			Library:ApplyTheme(Inline, 'Inline', 'BackgroundColor3')
 
-				local Background = Library:Create('Frame', {
-					Parent = Inline,
-					-- Name = '',
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, -2, 1, -2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				});
-				
-				local UIGradient = Library:Create('UIGradient', {
-					Parent = Background,
-					-- Name = '',
-					Rotation = 90,
-					Color = ColorSeq{ColorKey(0, Themes[Library.UTheme].LowContrast), ColorKey(1, Themes[Library.UTheme].HighContrast)}
-				});
-				Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
-				
-				local Bg = Library:Create('Frame', {
-					Parent = Background,
-					-- Name = '',
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, 0, 0, 2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Accent
-				});
-				Library:ApplyTheme(Bg, 'Accent', 'BackgroundColor3')
+			local Background = Library:Create('Frame', {
+				Parent = Inline,
+				-- Name = '',
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			});
+			
+			local UIGradient = Library:Create('UIGradient', {
+				Parent = Background,
+				-- Name = '',
+				Rotation = 90,
+				Color = ColorSeq{ColorKey(0, Themes[Library.UTheme].LowContrast), ColorKey(1, Themes[Library.UTheme].HighContrast)}
+			});
+			Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
+			
+			local Bg = Library:Create('Frame', {
+				Parent = Background,
+				-- Name = '',
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, 0, 0, 2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Accent
+			});
+			Library:ApplyTheme(Bg, 'Accent', 'BackgroundColor3')
 
-				Library:Create('UIGradient', {
-					Parent = Bg,
-					-- Name = '',
-					Enabled = true, 
-					Rotation = 180,
-					Transparency = NumSeq{NumKey(0, 1), NumKey(0.4, 0.75), NumKey(1, 0)},
-					Color = ColorSeq{ColorKey(0, FromRgb(255, 255, 255)), ColorKey(1, FromRgb(255, 255, 255))}
-				});
-				
-				local Text = Library:Create('TextLabel', {
-					Parent = Background,
-					-- Name = '',
-					FontFace = Library.Font,
-					TextColor3 = Themes[Library.UTheme].Text,
-					BorderColor3 = FromRgb(0, 0, 0),
-					Text = 'Keybinds',
-					BackgroundTransparency = 1,
-					TextTruncate = Enum.TextTruncate.AtEnd,
-					Size = Dim2(1, 0, 1, 0),
-					BorderSizePixel = 0,
-					TextSize = 10;
-					BackgroundColor3 = Themes[Library.UTheme].Text
-				}, 'Text')
-				
-				local UIStroke = Library:Create('UIStroke', {
-					Parent = Text,
-					-- Name = '',
-					LineJoinMode = Enum.LineJoinMode.Miter
-				});
-				
-				local TextHolder = Library:Create('Frame', {
-					Parent = Background,
-					-- Name = '',
-					Position = Dim2(0, -2, 1, 1),
-					Size = Dim2(1, 4, 0, 0),
-					BorderColor3 = FromRgb(0, 0, 0),
-					BorderSizePixel = 0,
-					AutomaticSize = Enum.AutomaticSize.Y,
-					BackgroundColor3 = Themes[Library.UTheme].Outline
-				});
-				Library:ApplyTheme(TextHolder, 'Outline', 'BackgroundColor3')
+			Library:Create('UIGradient', {
+				Parent = Bg,
+				-- Name = '',
+				Enabled = true, 
+				Rotation = 180,
+				Transparency = NumSeq{NumKey(0, 1), NumKey(0.4, 0.75), NumKey(1, 0)},
+				Color = ColorSeq{ColorKey(0, FromRgb(255, 255, 255)), ColorKey(1, FromRgb(255, 255, 255))}
+			});
+			
+			local Text = Library:Create('TextLabel', {
+				Parent = Background,
+				-- Name = '',
+				FontFace = Library.Font,
+				TextColor3 = Themes[Library.UTheme].Text,
+				BorderColor3 = FromRgb(0, 0, 0),
+				Text = 'Keybinds',
+				BackgroundTransparency = 1,
+				TextTruncate = Enum.TextTruncate.AtEnd,
+				Size = Dim2(1, 0, 1, 0),
+				BorderSizePixel = 0,
+				TextSize = 10;
+				BackgroundColor3 = Themes[Library.UTheme].Text
+			}, 'Text')
+			
+			local UIStroke = Library:Create('UIStroke', {
+				Parent = Text,
+				-- Name = '',
+				LineJoinMode = Enum.LineJoinMode.Miter
+			});
+			
+			local TextHolder = Library:Create('Frame', {
+				Parent = Background,
+				-- Name = '',
+				Position = Dim2(0, -2, 1, 1),
+				Size = Dim2(1, 4, 0, 0),
+				BorderColor3 = FromRgb(0, 0, 0),
+				BorderSizePixel = 0,
+				AutomaticSize = Enum.AutomaticSize.Y,
+				BackgroundColor3 = Themes[Library.UTheme].Outline
+			});
+			Library:ApplyTheme(TextHolder, 'Outline', 'BackgroundColor3')
 
-				local Inline = Library:Create('Frame', {
-					Parent = TextHolder,
-					-- Name = '',
-					Size = Dim2(1, -2, 1, -2),
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					BorderSizePixel = 0,
-					--AutomaticSize = Enum.AutomaticSize.Y,
-					BackgroundColor3 = Themes[Library.UTheme].Inline
-				});
-				Library:ApplyTheme(Inline, 'Inline', 'BackgroundColor3')
-				
-				local Background = Library:Create('Frame', {
-					Parent = Inline,
-					-- Name = '',
-					Size = Dim2(1, -2, 1, -2),
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					BorderSizePixel = 0,
-					--AutomaticSize = Enum.AutomaticSize.Y,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				});
-                
-				Library.KeybindList = Background
-				
-				local UIGradient = Library:Create('UIGradient', {
-					Parent = Background,
-					-- Name = '',
-					Rotation = 90,
-					Color = ColorSeq{ColorKey(0, Themes[Library.UTheme].LowContrast), ColorKey(1, Themes[Library.UTheme].HighContrast)}
-				});
-				Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
-				
-				Library:Create('UIListLayout', {
-					Parent = Background,
-					-- Name = '',
-					Padding = NewDim(0, -1),
-					SortOrder = Enum.SortOrder.LayoutOrder
-				});
-				
-				Library:Create('UIPadding', {
-					Parent = Background,
-					-- Name = '',
-					PaddingBottom = NewDim(0, 4),
-					PaddingLeft = NewDim(0, 5)
-				});
-			--//
+			local Inline = Library:Create('Frame', {
+				Parent = TextHolder,
+				-- Name = '',
+				Size = Dim2(1, -2, 1, -2),
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				BorderSizePixel = 0,
+				--AutomaticSize = Enum.AutomaticSize.Y,
+				BackgroundColor3 = Themes[Library.UTheme].Inline
+			});
+			Library:ApplyTheme(Inline, 'Inline', 'BackgroundColor3')
+			
+			local Background = Library:Create('Frame', {
+				Parent = Inline,
+				-- Name = '',
+				Size = Dim2(1, -2, 1, -2),
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				BorderSizePixel = 0,
+				--AutomaticSize = Enum.AutomaticSize.Y,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			});
+			
+			Library.KeybindList = Background
+			
+			local UIGradient = Library:Create('UIGradient', {
+				Parent = Background,
+				-- Name = '',
+				Rotation = 90,
+				Color = ColorSeq{ColorKey(0, Themes[Library.UTheme].LowContrast), ColorKey(1, Themes[Library.UTheme].HighContrast)}
+			});
+			Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
+			
+			Library:Create('UIListLayout', {
+				Parent = Background,
+				-- Name = '',
+				Padding = NewDim(0, -1),
+				SortOrder = Enum.SortOrder.LayoutOrder
+			});
+			
+			Library:Create('UIPadding', {
+				Parent = Background,
+				-- Name = '',
+				PaddingBottom = NewDim(0, 4),
+				PaddingLeft = NewDim(0, 5)
+			});
+			--]]
 
 			--// Main Window
-				local MainWindow = Library:Panel({
-					Name = Properties and Properties.Name or 'Kira.xyz', 
-					Size = Dim2(0, 604, 0, 628),
-					Position = Dim2(0, (Camera.ViewportSize.X / 2) - 302 - 96, 0, (Camera.ViewportSize.Y / 2) - 421 - 12),
-					Image = getcustomasset(Library.Directory.. '/Assets/Images/Icon1.Png'),
-				});
+			local MainWindow = Library:Panel({
+				Name = Properties and Properties.Name or 'Kira.xyz', 
+				Size = Dim2(0, 604, 0, 628),
+				Position = Dim2(0, (Camera.ViewportSize.X / 2) - 302 - 96, 0, (Camera.ViewportSize.Y / 2) - 421 - 12),
+				Image = getcustomasset(Library.Directory.. '/Assets/Images/Icon1.Png'),
+			});
 
-				local Items = MainWindow.Items
+			local Items = MainWindow.Items
 
-				Window['TabHolder'] = Library:Create('Frame', {
-					Parent = Items.Holder,
-					-- Name = '';,
-					BackgroundTransparency = 1,
-					Size = Dim2(1, 0, 0, 22),
-					BorderColor3 = FromRgb(0, 0, 0),
-					ZIndex = 5,
-					BorderSizePixel = 0,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				});
+			Window['TabHolder'] = Library:Create('Frame', {
+				Parent = Items.Holder,
+				-- Name = '';,
+				BackgroundTransparency = 1,
+				Size = Dim2(1, 0, 0, 22),
+				BorderColor3 = FromRgb(0, 0, 0),
+				ZIndex = 5,
+				BorderSizePixel = 0,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			});
 
-				Library:Create('UIListLayout', {
-					Parent = Window['TabHolder'],
-					FillDirection = Enum.FillDirection.Horizontal,
-					HorizontalFlex = Enum.UIFlexAlignment.Fill,
-					Padding = NewDim(0, 2),
-					SortOrder = Enum.SortOrder.LayoutOrder
-				});
+			Library:Create('UIListLayout', {
+				Parent = Window['TabHolder'],
+				FillDirection = Enum.FillDirection.Horizontal,
+				HorizontalFlex = Enum.UIFlexAlignment.Fill,
+				Padding = NewDim(0, 2),
+				SortOrder = Enum.SortOrder.LayoutOrder
+			});
 
-				local SectionHolder = Library:Create('Frame', {
-					Parent = Items.Holder,
-					-- Name = '';,
-					BackgroundTransparency = 1,
-					Position = Dim2(0, -1, 0, 19),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, 0, 1, -22),
-					BorderSizePixel = 0,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				});
-				Window['SectionHolder'] = SectionHolder
+			local SectionHolder = Library:Create('Frame', {
+				Parent = Items.Holder,
+				-- Name = '';,
+				BackgroundTransparency = 1,
+				Position = Dim2(0, -1, 0, 19),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, 0, 1, -22),
+				BorderSizePixel = 0,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			});
+			Window['SectionHolder'] = SectionHolder
 
-				local Outline = Library:Create('Frame', {
-					Parent = SectionHolder,
-					-- Name = '\0',
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, 0, 1, 2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Outline
-				});
-				
-				Library:ApplyTheme(Outline, 'Outline', 'BackgroundColor3')
+			local Outline = Library:Create('Frame', {
+				Parent = SectionHolder,
+				-- Name = '\0',
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, 0, 1, 2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Outline
+			});
+			
+			Library:ApplyTheme(Outline, 'Outline', 'BackgroundColor3')
 
-				local Inline = Library:Create('Frame', {
-					Parent = Outline,
-					-- Name = '\0',
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, -2, 1, -2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = Themes[Library.UTheme].Inline
-				});
-				
-				Library:ApplyTheme(Inline, 'Inline', 'BackgroundColor3')
+			local Inline = Library:Create('Frame', {
+				Parent = Outline,
+				-- Name = '\0',
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = Themes[Library.UTheme].Inline
+			});
+			
+			Library:ApplyTheme(Inline, 'Inline', 'BackgroundColor3')
 
-				local Background = Library:Create('Frame', {
-					Parent = Inline,
-					-- Name = '\0',
-					Position = Dim2(0, 1, 0, 1),
-					BorderColor3 = FromRgb(0, 0, 0),
-					Size = Dim2(1, -2, 1, -2),
-					BorderSizePixel = 0,
-					BackgroundColor3 = FromRgb(255, 255, 255)
-				});
+			local Background = Library:Create('Frame', {
+				Parent = Inline,
+				-- Name = '\0',
+				Position = Dim2(0, 1, 0, 1),
+				BorderColor3 = FromRgb(0, 0, 0),
+				Size = Dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = FromRgb(255, 255, 255)
+			});
 
-				Library.SectionHolder = Background
+			Library.SectionHolder = Background
 
-				Library:Create('UIPadding', {
-					Parent = Background,
-					PaddingTop = NewDim(0, 4),
-					PaddingBottom = NewDim(0, 4),
-					PaddingRight = NewDim(0, 4),
-					PaddingLeft = NewDim(0, 4)
-				});
+			Library:Create('UIPadding', {
+				Parent = Background,
+				PaddingTop = NewDim(0, 4),
+				PaddingBottom = NewDim(0, 4),
+				PaddingRight = NewDim(0, 4),
+				PaddingLeft = NewDim(0, 4)
+			});
 
-				local UIGradient = Library:Create('UIGradient', {
-					Parent = Background,
-					Rotation = 90,
-					Color = ColorSeq{ColorKey(0, FromRgb(41, 41, 55)), ColorKey(1, FromRgb(35, 35, 47))}
-				});
-				
-				Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
-				Library:Resizeable(Items.MainHolder) 
+			local UIGradient = Library:Create('UIGradient', {
+				Parent = Background,
+				Rotation = 90,
+				Color = ColorSeq{ColorKey(0, FromRgb(41, 41, 55)), ColorKey(1, FromRgb(35, 35, 47))}
+			});
+			
+			Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
+			Library:Resizeable(Items.MainHolder) 
 			--]]
 
 			--// Theming 
-				local Style = Library:Panel({
-					Name = 'Style', 
-					AnchorPoint = NewVect2(0, 0),
-					Size = Dim2(0, 394, 0, 464),
-					Position = Dim2(0, MainWindow.Items.MainHolder.AbsolutePosition.X + MainWindow.Items.MainHolder.AbsoluteSize.X + 2, 0, MainWindow.Items.MainHolder.AbsolutePosition.Y),
-					Image = getcustomasset(Library.Directory.. '/Assets/Images/Icon2.Png'),
-				});
+			local Style = Library:Panel({
+				Name = 'Style', 
+				AnchorPoint = NewVect2(0, 0),
+				Size = Dim2(0, 394, 0, 464),
+				Position = Dim2(0, MainWindow.Items.MainHolder.AbsolutePosition.X + MainWindow.Items.MainHolder.AbsoluteSize.X + 2, 0, MainWindow.Items.MainHolder.AbsolutePosition.Y),
+				Image = getcustomasset(Library.Directory.. '/Assets/Images/Icon2.Png'),
+			});
 
-				local Items = Style.Items
-				local Column = Setmetatable(Items, Library):Column() 
-				local Section = Column:Section({Name = 'Theme'});
-				Section:Label({Name = 'Accent'}):Colorpicker({Name = 'Accent', Color = Themes[Library.UTheme].Accent, Flag = 'Accent', Callback = function(Color) Library:UpdateTheme('Accent', Color) end});
-				Section:Label({Name = 'Contrast'}):Colorpicker({Name = 'High', Color = Themes[Library.UTheme].HighContrast, Flag = 'HighContrast', Callback = function(Color)
-					if (Flags['LowContrast'] and Flags['HighContrast']) then
-						Library:UpdateTheme('Contrast', ColorSeq{ColorKey(0, Flags['HighContrast'].Color), ColorKey(1, Flags['LowContrast'].Color)});
-					end;
-					Library:UpdateTheme('HighContrast', Flags['HighContrast'].Color) end;}):Colorpicker({Name = 'Low', Color = Themes[Library.UTheme].LowContrast, Flag = 'LowContrast', Callback = function(Color)
+			local Items = Style.Items
+			local Column = Setmetatable(Items, Library):Column() 
+			local Section = Column:Section({Name = 'Theme'});
+			Section:Label({Name = 'Accent'}):Colorpicker({Name = 'Accent', Color = Themes[Library.UTheme].Accent, Flag = 'Accent', Callback = function(Color) Library:UpdateTheme('Accent', Color) end});
+			Section:Label({Name = 'Contrast'}):Colorpicker({Name = 'High', Color = Themes[Library.UTheme].HighContrast, Flag = 'HighContrast', Callback = function(Color)
+				if (Flags['LowContrast'] and Flags['HighContrast']) then
 					Library:UpdateTheme('Contrast', ColorSeq{ColorKey(0, Flags['HighContrast'].Color), ColorKey(1, Flags['LowContrast'].Color)});
-					Library:UpdateTheme('LowContrast', Flags['LowContrast'].Color)
-				end});
+				end;
+				Library:UpdateTheme('HighContrast', Flags['HighContrast'].Color) end;}):Colorpicker({Name = 'Low', Color = Themes[Library.UTheme].LowContrast, Flag = 'LowContrast', Callback = function(Color)
+				Library:UpdateTheme('Contrast', ColorSeq{ColorKey(0, Flags['HighContrast'].Color), ColorKey(1, Flags['LowContrast'].Color)});
+				Library:UpdateTheme('LowContrast', Flags['LowContrast'].Color)
+			end});
 
-				Section:Label({Name = 'Inline'}):Colorpicker({Name = 'Inline', Color = Themes[Library.UTheme].Inline, Callback = function(Color)
-					Library:UpdateTheme('Inline', Color)
-				end; Flag = 'Inline'});
+			Section:Label({Name = 'Inline'}):Colorpicker({Name = 'Inline', Color = Themes[Library.UTheme].Inline, Callback = function(Color)
+				Library:UpdateTheme('Inline', Color)
+			end; Flag = 'Inline'});
 
-				Section:Label({Name = 'Outline'}):Colorpicker({Name = 'Outline', Color = Themes[Library.UTheme].Outline, Callback = function(Color)
-					Library:UpdateTheme('Outline', Color)
-				end; Flag = 'Outline'});
+			Section:Label({Name = 'Outline'}):Colorpicker({Name = 'Outline', Color = Themes[Library.UTheme].Outline, Callback = function(Color)
+				Library:UpdateTheme('Outline', Color)
+			end; Flag = 'Outline'});
 
-				Section:Label({Name = 'Text Color'}):Colorpicker({Name = 'Main', Color = Themes[Library.UTheme].Text, Callback = function(Color)
-					Library:UpdateTheme('Text', Color)
-				end; Flag = 'Main'}):Colorpicker({Name = 'Outline', Color = Themes[Library.UTheme].TextOutline, Callback = function(Color)
-					Library:UpdateTheme('TextOutline', Color)
-				end; Flag = 'Outline'});
+			Section:Label({Name = 'Text Color'}):Colorpicker({Name = 'Main', Color = Themes[Library.UTheme].Text, Callback = function(Color)
+				Library:UpdateTheme('Text', Color)
+			end; Flag = 'Main'}):Colorpicker({Name = 'Outline', Color = Themes[Library.UTheme].TextOutline, Callback = function(Color)
+				Library:UpdateTheme('TextOutline', Color)
+			end; Flag = 'Outline'});
 
-				Section:Label({Name = 'Glow'}):Colorpicker({Name = 'Glow', Color = Themes[Library.UTheme].Glow, Callback = function(Color)
-					Library:UpdateTheme('Glow', Color)
-				end; Flag = 'Glow'});
+			Section:Label({Name = 'Glow'}):Colorpicker({Name = 'Glow', Color = Themes[Library.UTheme].Glow, Callback = function(Color)
+				Library:UpdateTheme('Glow', Color)
+			end; Flag = 'Glow'});
 
-				Section:Slider({Name = 'Blur Size', Flag = 'Blur Size', Min = 1, Max = 56, Default = 30, Interval = 0.5, Callback = function(Value)
-					if Window.Opened then
-						Blur.Size = Value
-					end;
-				end});
-    
-				local Section = Column:Section({Name = 'Other'});
-				Section:Label({Name = 'UI Bind'}):Keybind({Flag = 'Menu Bind', Key = Enum.KeyCode.End, Callback = Window.SetMenuVisibility});
-				Section:Toggle({Name = 'Keybind List', Default = false, Flag = 'Menu KeybindList', Callback = function(Bool) Library.KeybindListFrame.Visible = (Bool) end});
-				Section:Toggle({Name = 'Watermark', Default = false, Flag = 'Menu Watermark', Callback = function(Bool) pcall(function() Library.Watermark.Visible = Bool end); end}); --// Gay ass pcall </3
-				Section:Toggle({Name = 'Spin Esp Preview', Flag = 'Menu Spin Preview', Default = false});
-				Section:Slider({Name = 'Fps Cap', Flag = 'Menu Fps Cap', Min = 30, Max = 500, Default = getfpscap(), Interval = 1, Callback = function(Value) setfpscap(Value) end});
-				Section:ButtonHolder({});
-				Section:Button({Name = 'Rejoin', Callback = function()
-					cloneref(game:GetService('TeleportService')):TeleportToPlaceInstance(game.PlaceId, game.JobId, Client);
-				end});
+			Section:Slider({Name = 'Blur Size', Flag = 'Blur Size', Min = 1, Max = 56, Default = 30, Interval = 0.5, Callback = function(Value)
+				if Window.Opened then
+					Blur.Size = Value
+				end;
+			end});
+
+			local Section = Column:Section({Name = 'Other'});
+			Section:Label({Name = 'UI Bind'}):Keybind({Flag = 'Menu Bind', Key = Enum.KeyCode.End, Callback = Window.SetMenuVisibility});
+			Section:Toggle({Name = 'Keybind List', Default = false, Flag = 'Menu KeybindList', Callback = function(Bool) Library.KeybindListFrame.Visible = (Bool) end});
+			Section:Toggle({Name = 'Watermark', Default = false, Flag = 'Menu Watermark', Callback = function(Bool) pcall(function() Library.Watermark.Visible = Bool end); end}); --// Gay ass pcall </3
+			Section:Toggle({Name = 'Spin Esp Preview', Flag = 'Menu Spin Preview', Default = false});
+			Section:Slider({Name = 'Fps Cap', Flag = 'Menu Fps Cap', Min = 30, Max = 500, Default = getfpscap(), Interval = 1, Callback = function(Value) setfpscap(Value) end});
+			Section:ButtonHolder({});
+			Section:Button({Name = 'Rejoin', Callback = function()
+				cloneref(game:GetService('TeleportService')):TeleportToPlaceInstance(game.PlaceId, game.JobId, Client);
+			end});
+			--]]
 
 			--// Cfg Holder
-				local Holder = Library:Panel({
-					Name = 'Configurations', 
-					Size = Dim2(0, 324, 0, 410),
-					Position = Dim2(0, Items.MainHolder.AbsolutePosition.X + Items.MainHolder.AbsoluteSize.X + 2, 0, Items.MainHolder.AbsolutePosition.Y),
-					Image = getcustomasset(Library.Directory.. '/Assets/Images/Icon3.Png'),
-				}); 
+			local Holder = Library:Panel({
+				Name = 'Configurations', 
+				Size = Dim2(0, 324, 0, 410),
+				Position = Dim2(0, Items.MainHolder.AbsolutePosition.X + Items.MainHolder.AbsoluteSize.X + 2, 0, Items.MainHolder.AbsolutePosition.Y),
+				Image = getcustomasset(Library.Directory.. '/Assets/Images/Icon3.Png'),
+			}); 
 
-				local Items = Holder.Items
-				local Column = Setmetatable(Items, Library):Column()
-				local Section = Column:Section({Name = 'Options'});
-					ConfigHolder = Section:List({Flag = 'ConfigNameList'});
-					Section:Textbox({Flag = 'ConfigNameTextBox'});
-					Section:ButtonHolder({});
-					Section:Button({Name = 'Create', Callback = function()
-						writefile(Library.Directory .. '/Configs/' .. Flags['ConfigNameTextBox'] .. '.Cfg', Library:GetConfig())
+			local Items = Holder.Items
+			local Column = Setmetatable(Items, Library):Column()
+			local Section = Column:Section({Name = 'Options'});
+				ConfigHolder = Section:List({Flag = 'ConfigNameList'});
+				Section:Textbox({Flag = 'ConfigNameTextBox'});
+				Section:ButtonHolder({});
+				Section:Button({Name = 'Create', Callback = function()
+					writefile(Library.Directory .. '/Configs/' .. Flags['ConfigNameTextBox'] .. '.Cfg', Library:GetConfig())
+					Library:UpdateConfigList()
+				end});
+				Section:Button({Name = 'Delete', Callback = function()
+					if (Flags['ConfigNameList']) ~= nil then
+						delfile(Library.Directory .. '/Configs/' .. Flags['ConfigNameList'] .. '.Cfg')
 						Library:UpdateConfigList()
-					end});
-					Section:Button({Name = 'Delete', Callback = function()
-						if (Flags['ConfigNameList']) ~= nil then
-							delfile(Library.Directory .. '/Configs/' .. Flags['ConfigNameList'] .. '.Cfg')
-							Library:UpdateConfigList()
-						else
-							Library:Notification({Text = 'Config not found', Time = 3});
-						end;
-					end});
-					Section:ButtonHolder({});
-					Section:Button({Name = 'Load', Callback = function()
-						if (Flags['ConfigNameList']) ~= nil then
-							Library:LoadConfig(readfile(Library.Directory .. '/Configs/' .. Flags['ConfigNameList'] .. '.Cfg'))
-							Library:Notification({Text = 'Loaded Config: ' .. Flags['ConfigNameList'], Time = 3});
-						else
-							Library:Notification({Text = 'Config not found', Time = 3});
-						end;
-					end});
-					Section:Button({Name = 'Save', Callback = function()
-						if (Flags['ConfigNameList']) ~= nil then
-							writefile(Library.Directory .. '/Configs/' .. Flags['ConfigNameList'] .. '.Cfg', Library:GetConfig())
-							Library:UpdateConfigList()
-							Library:Notification({Text = 'Saved Config: ' .. Flags['ConfigNameList'], Time = 3});
-						else
-							Library:Notification({Text = 'Config requires a name', Time = 3});
-						end;
-					end});
-					Section:ButtonHolder({});
-					Section:Button({Name = 'Refresh Configs', Callback = function()
+					else
+						Library:Notification({Text = 'Config not found', Time = 3});
+					end;
+				end});
+				Section:ButtonHolder({});
+				Section:Button({Name = 'Load', Callback = function()
+					if (Flags['ConfigNameList']) ~= nil then
+						Library:LoadConfig(readfile(Library.Directory .. '/Configs/' .. Flags['ConfigNameList'] .. '.Cfg'))
+						Library:Notification({Text = 'Loaded Config: ' .. Flags['ConfigNameList'], Time = 3});
+					else
+						Library:Notification({Text = 'Config not found', Time = 3});
+					end;
+				end});
+				Section:Button({Name = 'Save', Callback = function()
+					if (Flags['ConfigNameList']) ~= nil then
+						writefile(Library.Directory .. '/Configs/' .. Flags['ConfigNameList'] .. '.Cfg', Library:GetConfig())
 						Library:UpdateConfigList()
-					end});
-					Section:ButtonHolder({});
-					Section:Button({Name = 'Unload Config', Callback = function()
-						Library:LoadConfig(Library.OldConfig)
-					end});
-					Section:Button({Name = 'Eject Cheat', Callback = function()
-						Library:LoadConfig(Library.OldConfig);
-						Blur:Destroy();
-						for _, Gui in Library.Guis do 
-							Gui:Destroy() 
-						end;
-						for _, Connection in Library.Connections do 
-							Connection:Disconnect() 
-						end;
-						for _, Inst in Library.Instances do 
-							Inst:Destroy()
-						end;
-						Library = nil;
-					end});
-					
-			--// Esp Preview
+						Library:Notification({Text = 'Saved Config: ' .. Flags['ConfigNameList'], Time = 3});
+					else
+						Library:Notification({Text = 'Config requires a name', Time = 3});
+					end;
+				end});
+				Section:ButtonHolder({});
+				Section:Button({Name = 'Refresh Configs', Callback = function()
+					Library:UpdateConfigList()
+				end});
+				Section:ButtonHolder({});
+				Section:Button({Name = 'Unload Config', Callback = function()
+					Library:LoadConfig(Library.OldConfig)
+				end});
+				Section:Button({Name = 'Eject Cheat', Callback = function()
+					Library:LoadConfig(Library.OldConfig);
+					Blur:Destroy();
+					for _, Gui in Library.Guis do 
+						Gui:Destroy() 
+					end;
+					for _, Connection in Library.Connections do 
+						Connection:Disconnect() 
+					end;
+					for _, Inst in Library.Instances do 
+						Inst:Destroy()
+					end;
+					Library = nil;
+				end});
+				--]]
+
+				--// Esp Preview
 				local Holder = Library:Panel({
 					Name = 'Esp Preview', 
 					AnchorPoint = NewVect2(0, 0),
@@ -2426,9 +2430,9 @@ local Wait = (task.wait);
 				local Column = Setmetatable(Items, Library):Column() 
 				Window.EspSection = Column:Section({Name = 'Main'});
 				local Esp = Window.EspSection:EspPreview({})
-			--//
+				--]]
 
-			--// Playerlist 
+				--// Playerlist 
 				local Holder = Library:Panel({
 					Name = 'Playerlist', 
 					AnchorPoint = NewVect2(0, 0),
@@ -2445,7 +2449,7 @@ local Wait = (task.wait);
 				Section:Dropdown({Name = 'Priority', Items = {'Enemy', 'Priority', 'Neutral', 'Friendly'}, Default = 'Neutral', Flag = 'PlayerlistDropdown', Callback = function(Text)
 					Library.Prioritize(Text)
 				end});
-			--//
+				--]]
 
 			return Setmetatable(Window, Library)
 		end;
@@ -3242,7 +3246,7 @@ local Wait = (task.wait);
 				SortOrder = Enum.SortOrder.LayoutOrder
 			});
 			
-			for _, Tab in next, Cfg.names do 
+			for _, Tab in next, Cfg.Names do 
 				local Multi = {Open = false} 
 
 				--// Tab
