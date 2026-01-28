@@ -2339,7 +2339,7 @@ local Wait = (task.wait);
 				Section:Toggle({Name = 'Keybind List', Default = false, Flag = 'Menu KeybindList', Callback = function(Bool) Library.KeybindListFrame.Visible = (Bool) end});
 				Section:Toggle({Name = 'Watermark', Default = false, Flag = 'Menu Watermark', Callback = function(Bool) pcall(function() Library.Watermark.Visible = Bool end); end}); --// Gay ass pcall </3
 				Section:Toggle({Name = 'Spin Esp Preview', Flag = 'Menu Spin Preview', Default = false});
-				Section:Slider({Name = 'Fps Cap', Flag = 'Menu Fps Cap', Min = 30, Max = 500, Default = (getfpscap() or 240), Interval = 1, Callback = function(Value) setfpscap(Value) end});
+				Section:Slider({Name = 'Fps Cap', Flag = 'Menu Fps Cap', Min = 30, Max = 500, Default = getfpscap(), Interval = 1, Callback = function(Value) setfpscap(Value) end});
 				Section:ButtonHolder({});
 				Section:Button({Name = 'Rejoin', Callback = function()
 					cloneref(game:GetService('TeleportService')):TeleportToPlaceInstance(game.PlaceId, game.JobId, Client);
@@ -3158,7 +3158,7 @@ local Wait = (task.wait);
 
 		function Library:MultiSection(Options)
 			local Cfg = {
-				names = Options.names or {'First', 'Second', 'Third'}, 
+				Names = Options.names or {'First', 'Second', 'Third'}, 
 				Sections = {},
 			}
 
