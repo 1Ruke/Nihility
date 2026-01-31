@@ -265,7 +265,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 		end;
 		Themes[Library.UTheme][Theme] = Color 
 	end;
-
+	--]]
 	--// Misc Functions
 		function Library:Hover(Hover, Parent)
 			if not (Hover or not Parent) then return end;
@@ -516,9 +516,11 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 				--// Button
 				Image = Options.Image,
 				Open = Options.Open or true,
+				--]]
 
 				--// Ignore
 				Items = {},
+				--]]
 			};
 			
 			local Items = Cfg.Items do 
@@ -698,7 +700,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						SliceCenter = Rect.new(NewVect2(21, 21), NewVect2(79, 79))
 					});
 					Library:ApplyTheme(Items.Glow, 'Glow', 'ImageColor3')
-				--// 
+				--]]
 				
 				--// Button
 					Items.Button = Library:Create('TextButton', {
@@ -2738,7 +2740,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						BorderSizePixel = 0;
 						BackgroundColor3 = FromRgb(255, 255, 255)
 					});
-				--//
+				--]]
 				
 				--// Healthbar
 					Objects['HealthBar'] = Library:Create('Frame' , {
@@ -2761,7 +2763,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						BorderSizePixel = 0;
 						BackgroundColor3 = FromRgb(255, 255, 255)
 					});
-				--// 
+				--]]
 
 				--// Distance Esp
 					Objects['Distance'] = Library:Create('TextLabel' , {
@@ -2779,7 +2781,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						AutomaticSize = Enum.AutomaticSize.Y;
 						TextSize = 10;
 					});
-				--// 
+				--]]
 
 				--// Weapon Esp
 					Objects['Weapon'] = Library:Create('TextLabel' , {
@@ -2797,6 +2799,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						AutomaticSize = Enum.AutomaticSize.Y;
 						TextSize = 10;
 				});
+				--]]
 			end; 
 
 			Cfg.ChangeHealth = function()
@@ -3306,7 +3309,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						-- Name = '',
 						LineJoinMode = Enum.LineJoinMode.Miter
 					});
-				--// 
+				--]]
 
 				--// Element Handler
 					local ScrollingFrame = Library:Create('ScrollingFrame', {
@@ -3698,7 +3701,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					-- Name = '',
 					SortOrder = Enum.SortOrder.LayoutOrder
 				});
-			--//
+			--]]
 				function Cfg.Set(Value)
 					if typeof(Value) ~= 'number' then return end;
 					Cfg.Value = Clamp(Library:Round(Value, Cfg.Intervals), Cfg.Min, Cfg.Max)
@@ -3905,7 +3908,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					Color = ColorSeq{ColorKey(0, FromRgb(41, 41, 55)), ColorKey(1, FromRgb(35, 35, 47))}
 				});
 				Library:ApplyTheme(UIGradient, 'Contrast', 'Color')
-			--//
+			--]]
 
 			Library:Hover(ToggleHolder, Toggle)
 				
@@ -4001,7 +4004,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					Rotation = 90,
 					Color = ColorSeq{ColorKey(0, FromRgb(255, 255, 255)), ColorKey(1, FromRgb(25, 25, 25))}
 				});
-			--// 
+			--]]
 
 			--// Colorpicker Instances
 				local ColorpickerHolder = Library:Create('Frame', {
@@ -4650,7 +4653,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					LineJoinMode = Enum.LineJoinMode.Miter,
 					ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 				})
-			--// 
+			--]]
 
 			--// init 
 			function Cfg.SetVisible(Bool)
@@ -5048,7 +5051,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					-- Name = '',
 					SortOrder = Enum.SortOrder.LayoutOrder
 				});
-			--
+			--]]
 
 			--// Dropdown Holder
 				local DropdownHolder = Library:Create('Frame', {
@@ -5159,7 +5162,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					LineJoinMode = Enum.LineJoinMode.Miter
 				});
 				Library:ApplyTheme(Stroke, 'Outline', 'Color')
-			--// 
+			--]]
 				
 			function Cfg.SetElementVisible(Boolean)
 				RealDropdown.Visible = Boolean 
@@ -5187,8 +5190,8 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 						Library.CurrentElementOpened.Open = false
 					end;
  
-					--// DropdownHolder.Size = Dim2(0, Dropdown.AbsoluteSize.X, 0, DropdownHolder.Size.Y.Offset)
-					--// DropdownHolder.Position = Dim2(0, Dropdown.AbsolutePosition.X + 1, 0, Dropdown.AbsolutePosition.Y + 22)					
+					-- DropdownHolder.Size = Dim2(0, Dropdown.AbsoluteSize.X, 0, DropdownHolder.Size.Y.Offset)
+					-- DropdownHolder.Position = Dim2(0, Dropdown.AbsolutePosition.X + 1, 0, Dropdown.AbsolutePosition.Y + 22)					
 				end;
 			end;
 
@@ -5289,7 +5292,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 				Callback = (Options and Options.Callback or function() end),
 				Scale = Options.Size or 232, 
 				Items = Options.Items or {'1', '2', '3'}, 
-				--// Order = Options.Order or 1, 
+				-- Order = Options.Order or 1, 
 				PlaceholderText = Options.PlaceHolder or Options.PlaceholderText or 'Search here...',
 				Visible = Options.Visible or true,
 				OptionInstances = {}, 
@@ -5433,7 +5436,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					Padding = NewDim(0, 4),
 					SortOrder = Enum.SortOrder.LayoutOrder
 				});
-			--//
+			--]]
 
 			function Cfg.RenderOption(Text) 
 				local TextButton = Library:Create('TextButton', {
@@ -5528,12 +5531,12 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 
 		function Library:Textbox(Options)
 			local Cfg = {
-				PlaceHolder = Options.PlaceHolder or Options.PlaceHolderText or Options.Holder or Options.Holdertext or 'type here...',
+				PlaceHolder = Options.Holder or 'Type here...',
 				Default = Options.Default,
 				Flag = (Options.Flag or '(Textbox) EMPTY FLAG: '),
 				Callback = Options.Callback or function() end;
 				Visible = Options.Visible or true,
-			}
+			};
 			
 			--// Instances 
 				local TextboxHolder = Library:Create('TextLabel', {
@@ -5666,7 +5669,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					Flags[Cfg.Flag] = TextBox.Text
 					Cfg.Callback(TextBox.Text)
 				end)
-			--// 
+			--]]
 
 			function Cfg.SetElementVisible(Boolean)
 				TextboxHolder.Visible = Boolean 
@@ -5730,7 +5733,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					Padding = NewDim(0, 5),
 					SortOrder = Enum.SortOrder.LayoutOrder
 				});
-			--// 
+			--]]
 			
 			function Cfg.SetElementVisible(Boolean)
 				ButtonHolder.Visible = Boolean 
@@ -6085,7 +6088,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					Padding = NewDim(0, 4),
 					SortOrder = Enum.SortOrder.LayoutOrder
 				});
-			--// 
+			--]]
 
 			function Cfg.CreatePlayer(Player) 
 				Library.PlayerlistData[Tostring(Player)] = {}
