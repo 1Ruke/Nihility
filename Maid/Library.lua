@@ -5531,7 +5531,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 
 		function Library:Textbox(Options)
 			local Cfg = {
-				PlaceHolder = Options.Holder or 'Type here...',
+				Holder = Options.Holder or 'Type here...',
 				Default = Options.Default,
 				Flag = (Options.Flag or '(Textbox) EMPTY FLAG: '),
 				Callback = Options.Callback or function() end;
@@ -5620,6 +5620,7 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					TextWrapped = true,
 					BackgroundTransparency = 1,
 					TextTruncate = Enum.TextTruncate.SplitWord,
+					PlaceholderText = Cfg.Holder,
 					ClearTextOnFocus = false,
 					ZIndex = 3;
 					TextSize = 10;
