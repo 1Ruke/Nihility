@@ -5620,7 +5620,6 @@ local Getfpscap = function() local Fps = getfpscap(); if Fps >= 0 then return 50
 					TextWrapped = true,
 					BackgroundTransparency = 1,
 					TextTruncate = Enum.TextTruncate.SplitWord,
-					PlaceholderText = 'Type here...',
 					ClearTextOnFocus = false,
 					ZIndex = 3;
 					TextSize = 10;
