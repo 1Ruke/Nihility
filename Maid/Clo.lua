@@ -396,7 +396,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 	end;
 
 	function Library:Create(Obj, Options)
-		if (not Obj or not Options then return warn(`Obj: {Obj}, Options: {Options}`)) end;
+		if (not Obj or not Options) then return warn(`Obj: {Obj}, Options: {Options}`) end;
 		local Inst = cloneref(Instance.new(Obj)) --// Dumb
 		
 		for Prop, Value in next, Options do Inst[Prop] = Value end;
@@ -4678,16 +4678,15 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 
 			-- if Cfg.Name then
 			if (not Cfg.Name) then return end; 
-				KeybindElement.Visible = Cfg.Active
+			KeybindElement.Visible = Cfg.Active
 
-				Library:Tween(KeybindElement, {TextTransparency = Cfg.Active and 0 or 1}, 0.185);
-				Library:Tween(KeybindElement:FindFirstChildOfClass('UIStroke'), {Transparency = Cfg.Active and 0 or 1}, 0.185);
+			Library:Tween(KeybindElement, {TextTransparency = Cfg.Active and 0 or 1}, 0.185);
+			Library:Tween(KeybindElement:FindFirstChildOfClass('UIStroke'), {Transparency = Cfg.Active and 0 or 1}, 0.185);
 
-				local text = (Tostring(Cfg.Key) ~= 'Enums' and (Keys[Cfg.Key] or Tostring(Cfg.Key):gsub('Enum.', '')) or nil);
-				local __text = text and (Tostring(text):gsub('KeyCode.', ''):gsub('UserInputType.', ''));
+			local text = (Tostring(Cfg.Key) ~= 'Enums' and (Keys[Cfg.Key] or Tostring(Cfg.Key):gsub('Enum.', '')) or nil);
+			local __text = text and (Tostring(text):gsub('KeyCode.', ''):gsub('UserInputType.', ''));
 
-				KeybindElement.Text = ('[' .. string.upper(SubString(Cfg.Mode, 1, 1)) .. SubString(Cfg.Mode, 2) .. '] ' .. Cfg.Name .. ' - ' .. __text);
-			end;
+			KeybindElement.Text = ('[' .. string.upper(SubString(Cfg.Mode, 1, 1)) .. SubString(Cfg.Mode, 2) .. '] ' .. Cfg.Name .. ' - ' .. __text);
 		end;
 
 		ButtonHold.MouseButton1Click:Connect(function()
@@ -4723,8 +4722,8 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 
 				Cfg.Binding:Disconnect();
 				Cfg.Binding = nil;
-			end)
-		end)
+			end);
+		end);
 
 		Library:Connection(InputService.InputBegan, function(Input, GameEvent) 
 			local SelectedKey = (Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode or Input.UserInputType)
@@ -4740,9 +4739,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		Library:Connection(InputService.InputEnded, function(Input, GameEvent)
 			local SelectedKey = (Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode or Input.UserInputType)
 			if (GameEvent or SelectedKey ~= Cfg.Key) then return end;
-			if (Cfg.Mode == 'Hold') then 
-				Cfg.Set(false)
-			end;
+			if (Cfg.Mode == 'Hold') then Cfg.Set(false); end;
 		end);
 	
 		Cfg.Set({Mode = Cfg.Mode, Active = Cfg.Active, Key = Cfg.Key});
@@ -6162,8 +6159,8 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 			if (not Library.SelectedPlayer or not Library.PlayerlistData) then return end;
 			local Path = Library.PlayerlistData[Library.SelectedPlayer];
 			Path.PriorityText.Text = Text;
-			Path.PriorityText.TextColor3 = Patterns[Text];;
-			Path.Priority = Text
+			Path.PriorityText.TextColor3 = Patterns[Text];
+			Path.Priority = Text;
 		end;
 
 		function Library.GetPriority(Player) 
