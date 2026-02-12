@@ -4298,19 +4298,17 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 			if (not Color) then return end;
 			H, s, v = Color:ToHSV()
 
-			local HsvPosition, Color = FromHsv(H, s, v), FromHsv(H, s, v);
+			local HsvPosition, Color = FromHsv(H, s, v), FromHsv(H, s, v);;
+			local SOffset, VOffset = ((s < 1) and 0 or -3), ((1 - v < 1) and 0 or -3);
 			
-			local Value = (1 - H or 1 - 0)
-			local Offset = ((Value < 1) and 0 or -4)
+			local Value = (1 - H or 1 - 0);
+			local Offset = ((Value < 1) and 0 or -4);
 
-			Visualize.BackgroundColor3, Handler.BackgroundColor3 = Color, Color
-			Colorpicker.BackgroundColor3, Cfg.Color = FromHsv(H, 1, 1), Color
+			Visualize.BackgroundColor3, Handler.BackgroundColor3 = Color, Color;
+			Colorpicker.BackgroundColor3, Cfg.Color = FromHsv(H, 1, 1), Color;
 
-			
-			local SOffset, VOffset = ((s < 1) and 0 or -3), ((1 - v < 1) and 0 or -3)
-
-			Library:Tween(HuePicker, {Position = Dim2(0, 0, Value, Offset)}, 0.045)
-			Library:Tween(SatValCursor, {Position = Dim2(s, SOffset, 1 - v, VOffset)}, 0.035)
+			Library:Tween(HuePicker, {Position = Dim2(0, 0, Value, Offset)}, 0.045);
+			Library:Tween(SatValCursor, {Position = Dim2(s, SOffset, 1 - v, VOffset)}, 0.035);
 			
 			Flags[Cfg.Flag] = {};
 			Flags[Cfg.Flag]['Color'] = Color;
@@ -4328,23 +4326,19 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 ]]
 
 		function Cfg.UpdateColor()
-			if (not DraggingSat) then return end;
 			local Mouse = InputService:GetMouseLocation();
+			if (not DraggingSat) then return end;
 			s = Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Val.AbsolutePosition).X / Val.AbsoluteSize.X, 0, 1);
 			v = 1 - Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Sat.AbsolutePosition).Y / Sat.AbsoluteSize.Y, 0, 1);
 			if (not DraggingHue) then return end;
 			H = Clamp(1 - (NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Hue.AbsolutePosition).Y / Hue.AbsoluteSize.Y, 0, 1);
 
-			Cfg.Set(nil, nil)
+			Cfg.Set(nil, nil);
 		end;
 				
-		Hue.MouseButton1Down:Connect(function()
-			DraggingHue = true;
-		end);
+		Hue.MouseButton1Down:Connect(function() DraggingHue = true; end);
 
-		Sat.MouseButton1Down:Connect(function()
-			DraggingSat = true;
-		end);
+		Sat.MouseButton1Down:Connect(function() DraggingSat = true; end);
 
 		InputService.InputEnded:Connect(function(Input)
 			if (Input.UserInputType ~= Enum.UserInputType.MouseButton1) then return end;
@@ -4354,7 +4348,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		InputService.InputChanged:Connect(function(Input)
 			-- if (DraggingSat or DraggingHue and Input.UserInputType == Enum.UserInputType.MouseMovement) then
 			if (DraggingSat or DraggingHue or Input.UserInputType ~= Enum.UserInputType.MouseMovement) then return end;
-			Cfg.UpdateColor() 
+			Cfg.UpdateColor();
 		end);
 
 		Library:Connection(RunService.PreRender, function()
