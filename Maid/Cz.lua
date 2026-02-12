@@ -4299,7 +4299,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 			if Color then
 				H, s, v = Color:ToHSV();
 			end;
-			
+
 			local HsvPosition, Color = FromHsv(H, s, v), FromHsv(H, s, v);
 			local SOffset, VOffset = ((s < 1) and 0 or -3), ((1 - v < 1) and 0 or -3);
 			
@@ -4339,7 +4339,6 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		end;
 				
 		Hue.MouseButton1Down:Connect(function() DraggingHue = true; end);
-
 		Sat.MouseButton1Down:Connect(function() DraggingSat = true; end);
 
 		InputService.InputEnded:Connect(function(Input)
@@ -4349,7 +4348,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 
 		InputService.InputChanged:Connect(function(Input)
 			-- if (DraggingSat or DraggingHue and Input.UserInputType == Enum.UserInputType.MouseMovement) then
-			if (DraggingSat or DraggingHue or Input.UserInputType ~= Enum.UserInputType.MouseMovement) then return end;
+			if (not DraggingSat or not DraggingHue or Input.UserInputType ~= Enum.UserInputType.MouseMovement) then return end;
 			Cfg.UpdateColor();
 		end);
 
