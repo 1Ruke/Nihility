@@ -99,7 +99,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		UTheme = 'Atlanta' --// Atlanta / Dracula
 	};
 
-	local Flags, ConfigFlags, Holder, ConfigHolder; = Library.Flags, Library.ConfigFlags;
+	local Flags, ConfigFlags, Holder, ConfigHolder = Library.Flags, Library.ConfigFlags;
 
 	local Themes = {
 		Dracula = {
@@ -445,24 +445,23 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		local Dragging, StartSize, Start = false, Frame.Position;
 
 		Frame.InputBegan:Connect(function(Input)
-			-- if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-				if (Input.UserInputType ~= Enum.UserInputType.MouseButton1) then return end;
-				Dragging, Start, StartSize = true, Input.Position, Frame.Position
-		
-				if Library.CurrentElementOpened then
-					Library.CurrentElementOpened.SetVisible(false)
-					Library.CurrentElementOpened.Open = false
-					Library.CurrentElementOpened = nil
-				end;
+        -- if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if (Input.UserInputType ~= Enum.UserInputType.MouseButton1) then return end;
+            Dragging, Start, StartSize = true, Input.Position, Frame.Position
+    
+            if Library.CurrentElementOpened then
+                Library.CurrentElementOpened.SetVisible(false)
+                Library.CurrentElementOpened.Open = false
+                Library.CurrentElementOpened = nil
+            end;
 
-				if (Frame.Parent:IsA('GuiMain') and Frame.Parent.DisplayOrder ~= (2^31-1)) then
-					Library.DisplayOrder += 1 --// shit code
-					Frame.Parent.DisplayOrder = Library.DisplayOrder;
-				elseif Frame.Parent.DisplayOrder <= (2^31-1) then
-					Library.DisplayOrder = 0
-				end;
-			end;
-		end)
+            if (Frame.Parent:IsA('GuiMain') and Frame.Parent.DisplayOrder ~= (2^31-1)) then
+                Library.DisplayOrder += 1 --// shit code
+                Frame.Parent.DisplayOrder = Library.DisplayOrder;
+            elseif Frame.Parent.DisplayOrder <= (2^31-1) then
+                Library.DisplayOrder = 0
+            end;
+		end);
 	--]]
 		Frame.InputEnded:Connect(function(Input)
 			-- if Input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -3127,7 +3126,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 	end;
 
 	function Library:MultiSection(Options)
-		local Cfg = {Names = Options.Names or {'First', 'Second', 'Third'}); Sections = {};};
+		local Cfg = {Names = (Options.Names or {'First', 'Second', 'Third'}); Sections = {};};
 
 		local Section = Library:Create('Frame', {
 			Parent = self.Holder,
