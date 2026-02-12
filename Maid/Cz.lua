@@ -217,7 +217,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 	Library.__index = Library
 
 	for _, Path in next, Library.Folders do makefolder(Library.Directory .. Path); end;
-
+    if not Library then return end;
 	--// Assets
 	local HttpGet = clonefunction(game.HttpGet);
 	if isfile(Library.Directory.. '/Assets/Fonts/HolderProggy.ttf') then delfile(Library.Directory.. '/Assets/Fonts/HolderProggy.ttf') end;
@@ -449,16 +449,14 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
             Dragging, Start, StartSize = true, Input.Position, Frame.Position
     
             if Library.CurrentElementOpened then
-                Library.CurrentElementOpened.SetVisible(false)
-                Library.CurrentElementOpened.Open = false
-                Library.CurrentElementOpened = nil
+                Library.CurrentElementOpened.SetVisible(false);
+                Library.CurrentElementOpened.Open = false;
+                Library.CurrentElementOpened = nil;
             end;
 
-            if (Frame.Parent:IsA('GuiMain') and Frame.Parent.DisplayOrder ~= (2^31-1)) then
+            if (Frame.Parent:IsA('GuiMain') and Frame.Parent.DisplayOrder ~= 999999) then
                 Library.DisplayOrder += 1 --// shit code
                 Frame.Parent.DisplayOrder = Library.DisplayOrder;
-            elseif Frame.Parent.DisplayOrder <= (2^31-1) then
-                Library.DisplayOrder = 0
             end;
 		end);
 	--]]
@@ -478,7 +476,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 	--]]
 
 	--// This is genuinely stupid asf
-	local GuiMain, Elem, Elem2, Elem3, Elem4 = Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 1}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 1}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 1}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 1}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 1}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 1});
+	local GuiMain, Elem, Elem2, Elem3, Elem4 = Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 999999}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 999999}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 999999}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 999999}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 999999}), Library:Create('GuiMain', {Enabled = true, Parent = gethui(), Name = '', DisplayOrder = 999999});
 	--]]
 
 	--// Elements
@@ -4272,16 +4270,15 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		});
 
 		function Cfg.SetVisible(Boolean)
-			if (not ColorpickerHolder and ColorpickerButton) then return end;
-			if (not Boolean) then
-				Library:Tween(ColorpickerHolder, {Position = Dim2(0, ColorpickerButton.AbsolutePosition.X, ColorpickerButton.AbsolutePosition.Y)}, 0.185);
-			else
+			if (not ColorpickerHolder or not ColorpickerButton) then return end;
+			if (Boolean) then
 				Library:Tween(ColorpickerHolder, {Position = Dim2(0, ColorpickerButton.AbsolutePosition.X, 0, ColorpickerButton.AbsolutePosition.Y)}, 0.185);
 				Wait(0.185)
 				Library:Tween(ColorpickerHolder, {Position = Dim2(0, ColorpickerButton.AbsolutePosition.X + 28, 0, ColorpickerButton.AbsolutePosition.Y)}, 0.185);
+                ColorpickerHolder.Visible = Boolean
+            else
+				Library:Tween(ColorpickerHolder, {Position = Dim2(0, ColorpickerButton.AbsolutePosition.X, ColorpickerButton.AbsolutePosition.Y)}, 0.185);
 			end;
-
-			ColorpickerHolder.Visible = Boolean
 
 			if (not Boolean or not Library.CurrentElementOpened or Library.CurrentElementOpened == Cfg) then return end;
 			Library.CurrentElementOpened.SetVisible(false);
@@ -4315,7 +4312,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 			Flags[Cfg.Flag] = {};
 			Flags[Cfg.Flag]['Color'] = Color;
 
-			Cfg.Callback(Color)
+			Cfg.Callback(Color);
 		end;
 
 --[[
@@ -4327,30 +4324,41 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 			end;
 ]]
 
+--[[
+			if (DraggingSat) then
+				s = Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Val.AbsolutePosition).X / Val.AbsoluteSize.X, 0, 1);
+				v = 1 - Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Sat.AbsolutePosition).Y / Sat.AbsoluteSize.Y, 0, 1);
+			elseif (DraggingHue) then
+				H = Clamp(1 - (NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Hue.AbsolutePosition).Y / Hue.AbsoluteSize.Y, 0, 1);
+			end;
+
+]]
+
 		function Cfg.UpdateColor()
 			local Mouse = InputService:GetMouseLocation();
-			if (not DraggingSat) then return end;
-			s = Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Val.AbsolutePosition).X / Val.AbsoluteSize.X, 0, 1);
-			v = 1 - Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Sat.AbsolutePosition).Y / Sat.AbsoluteSize.Y, 0, 1);
-			if (not DraggingHue) then return end;
-			H = Clamp(1 - (NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Hue.AbsolutePosition).Y / Hue.AbsoluteSize.Y, 0, 1);
-
+			if DraggingSat then
+				s = Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Val.AbsolutePosition).X / Val.AbsoluteSize.X, 0, 1);
+				v = 1 - Clamp((NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Sat.AbsolutePosition).Y / Sat.AbsoluteSize.Y, 0, 1);
+			elseif DraggingHue then
+				H = Clamp(1 - (NewVect2(Mouse.X, Mouse.Y - GuiOffset) - Hue.AbsolutePosition).Y / Hue.AbsoluteSize.Y, 0, 1);
+			end;
 			Cfg.Set(nil, nil);
 		end;
 				
-		Hue.MouseButton1Down:Connect(function() DraggingHue = true; end);
-		Sat.MouseButton1Down:Connect(function() DraggingSat = true; end);
+		Library:Connection(Hue.MouseButton1Down, (function() DraggingHue = true; end));
+		Library:Connection(Sat.MouseButton1Down, (function() DraggingSat = true; end));
 
-		InputService.InputEnded:Connect(function(Input)
-			if (Input.UserInputType ~= Enum.UserInputType.MouseButton1) then return end;
-			DraggingSat, DraggingHue = false, false;
-		end);
+		Library:Connection(InputService.InputEnded, (function(Input)
+			if (Input.UserInputType == Enum.UserInputType.MouseButton1) then
+			    DraggingSat, DraggingHue = false, false;
+            end;
+		end));
 
-		InputService.InputChanged:Connect(function(Input)
-			-- if (DraggingSat or DraggingHue and Input.UserInputType == Enum.UserInputType.MouseMovement) then
-			if (not DraggingSat or not DraggingHue or Input.UserInputType ~= Enum.UserInputType.MouseMovement) then return end;
-			Cfg.UpdateColor();
-		end);
+        Library:Connection(InputService.InputChanged, (function(Input)
+            if (Input.UserInputType == Enum.UserInputType.MouseMovement and (DraggingSat or DraggingHue)) then
+                Cfg.UpdateColor();
+            end;
+        end))
 
 		Library:Connection(RunService.PreRender, function()
 			if (not Flags[Cfg.Flag .. ' RainbowFlag']) then return end;
@@ -5088,18 +5096,23 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 
 		function Cfg.SetVisible(Boolean) 
 			Library.CurrentElementOpened = Cfg.Ignore or Cfg
+            if Boolean then
+                Library:Tween(DropdownHolder, {Size = Dim2(0, Dropdown.AbsoluteSize.X, 0, DropdownHolder.Size.Y.Offset)}, 0.185)
+                Library:Tween(DropdownHolder, {Position = Dim2(0, Dropdown.AbsolutePosition.X, 0, Dropdown.AbsolutePosition.Y)}, 0.185)
+                Wait(0.185)
+                Library:Tween(DropdownHolder, {Position = Dim2(0, Dropdown.AbsolutePosition.X, 0, Dropdown.AbsolutePosition.Y + 20)}, 0.185)
+            else
+                Library:Tween(DropdownHolder, {Position = Dim2(0, Dropdown.AbsolutePosition.X, 0, Dropdown.AbsolutePosition.Y + 20)}, 0.185)
+                -- Wait(0.185)
+                Library:Tween(DropdownHolder, {Size = Dim2(0, Dropdown.AbsoluteSize.X, 0, DropdownHolder.Size.Y.Offset)}, 0.185)
+                Library:Tween(DropdownHolder, {Position = Dim2(0, Dropdown.AbsolutePosition.X, 0, Dropdown.AbsolutePosition.Y)}, 0.185)
+                Wait(0.185)
+            end;
 
-			local Old = Dropdown.AbsolutePosition.Y + 20
-			Library:Tween(DropdownHolder, {Size = Dim2(0, Dropdown.AbsoluteSize.X, 0, DropdownHolder.Size.Y.Offset)}, 0.185)
-			Library:Tween(DropdownHolder, {Position = Dim2(0, Dropdown.AbsolutePosition.X, 0, Dropdown.AbsolutePosition.Y)}, 0.185)
-			Wait(0.185)
-			Library:Tween(DropdownHolder, {Position = Dim2(0, Dropdown.AbsolutePosition.X, 0, Old)}, 0.185)
+            DropdownHolder.Visible = Boolean;
+            Plus.Text = (Boolean and '-' or '+');
+            Plus.TextSize = (Boolean and 10 or 8);
 
-			DropdownHolder.Visible = Boolean
-			Plus.Text = (Boolean and '-' or '+')
-			Plus.TextSize = (Boolean and 10 or 8)
-
-			if (not Boolean) then return end;
 			if (Library.CurrentElementOpened and Library.CurrentElementOpened ~= Cfg) then
 				Library.CurrentElementOpened.SetVisible(false)
 				Library.CurrentElementOpened.Open = false
