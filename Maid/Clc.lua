@@ -4295,9 +4295,11 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 		end);
 
 		function Cfg.Set(Color)
-			if (not Color) then return end;
-			H, s, v = Color:ToHSV()
-
+			-- if (not Color) then return end;
+			if Color then
+				H, s, v = Color:ToHSV();
+			end;
+			
 			local HsvPosition, Color = FromHsv(H, s, v), FromHsv(H, s, v);
 			local SOffset, VOffset = ((s < 1) and 0 or -3), ((1 - v < 1) and 0 or -3);
 			
