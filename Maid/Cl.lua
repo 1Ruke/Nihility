@@ -4298,7 +4298,7 @@ local gethui = function() if gethui then return gethui() else return cloneref(Us
 			if (not Color) then return end;
 			H, s, v = Color:ToHSV()
 
-			local HsvPosition, Color = FromHsv(H, s, v), FromHsv(H, s, v);;
+			local HsvPosition, Color = FromHsv(H, s, v), FromHsv(H, s, v);
 			local SOffset, VOffset = ((s < 1) and 0 or -3), ((1 - v < 1) and 0 or -3);
 			
 			local Value = (1 - H or 1 - 0);
