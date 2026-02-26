@@ -1,4 +1,4 @@
-local Camera, InputService, CoreGui, Base, Module = workspace.CurrentCamera, game:GetService('UserInputService'), gethui(), getcustomasset(readfile('AfFov.rbxm')), {};
+local Camera, InputService, CoreGui, Base, Module = workspace.CurrentCamera, game:GetService('UserInputService'), gethui(), getcustomasset(readfile('AfFov.rbxm'))[1], {};
 local GuiMain, Center = Instance.new('GuiMain', CoreGui), (Camera.ViewportSize / 2);
 GuiMain.IgnoreGuiInset = true;
 
@@ -38,7 +38,6 @@ end;
 
 Module.CreateInstance = function(self)
 	local Objects = self.Objects;
-	print(Objects)
 	Objects.Main = Base.Main:Clone();
 
 	for i, v in pairs(Objects) do
@@ -62,7 +61,6 @@ Module.RenderFov = function(self, Settings)
 	if (Settings.Filled and Settings.FilledGradient) then
 		Objects.Main.Gradient.Enabled = true;
 		Objects.Main.Gradient.Transparency = (Settings.FilledTransparency);
-		print(Objects.Main.Gradient.Transparency)
 		Objects.Main.Gradient.Color = (Settings.FilledGradientColor or ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 21, 142)), ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))}));
 	elseif (Settings.Filled and not Settings.FilledGradient) then
 		Objects.Main.Gradient.Enabled = false;
