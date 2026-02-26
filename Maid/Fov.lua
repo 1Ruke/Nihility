@@ -1,4 +1,4 @@
-local Camera, InputService, CoreGui, Base, Module = workspace.CurrentCamera, game:GetService('UserInputService'), gethui(), getcustomasset(readfile('AfFov.rbxm'))[1], {};
+local Camera, InputService, CoreGui, Base, Module = workspace.CurrentCamera, game:GetService('UserInputService'), gethui(), game:GetObjects(getcustomasset('AfFov.rbxm'))[1],, {};
 local GuiMain, Center = Instance.new('GuiMain', CoreGui), (Camera.ViewportSize / 2);
 GuiMain.IgnoreGuiInset = true;
 
