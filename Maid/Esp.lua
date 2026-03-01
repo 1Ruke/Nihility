@@ -1,6 +1,6 @@
 --// Main
-	local Camera, CoreGui, Base, Dirs, Module = game.Workspace.CurrentCamera, game.Players.LocalPlayer.PlayerGui, script.P100Hook:Clone(), {Vector3.new(-1, -1, -1), Vector3.new(1, -1, -1), Vector3.new(-1, 1, -1), Vector3.new(1, 1, -1), Vector3.new(-1, -1, 1), Vector3.new(1, -1, 1), Vector3.new(-1, 1, 1), Vector3.new(1, 1, 1)}, {Cache = {}};
-	local GuiMain = Instance.new("GuiMain", CoreGui);
+	local Camera, CoreGui, Base, Dirs, Module = cloneref(game.Workspace.CurrentCamera), gethui(), cloneref(game:GetObjects(getcustomasset('Esp.rbxm')))[1], {Vector3.new(-1, -1, -1), Vector3.new(1, -1, -1), Vector3.new(-1, 1, -1), Vector3.new(1, 1, -1), Vector3.new(-1, -1, 1), Vector3.new(1, -1, 1), Vector3.new(-1, 1, 1), Vector3.new(1, 1, 1)}, {Cache = {}};
+	local GuiMain = cloneref(Instance.new("GuiMain", CoreGui));
 	GuiMain.IgnoreGuiInset = (true);
 
 	Module.__index = Module;
@@ -62,7 +62,7 @@
 			if (not v:IsA("BasePart") or v.Name == 'HumanoidRootPart') then continue end;
 
 			if v.Name == 'Head' then
-				local HCham = Instance.new('SphereHandleAdornment');
+				local HCham = cloneref(Instance.new('SphereHandleAdornment'));
 				HCham.Adornee = (v);
 				HCham.Name = (v.Name);
 				HCham.Transparency = 1;
@@ -72,7 +72,7 @@
 				continue
 			end;
 
-			local Cham = Instance.new('BoxHandleAdornment');
+			local Cham = cloneref(Instance.new('BoxHandleAdornment'));
 			Cham.Adornee = (v);
 			Cham.Name = (v.Name);
 			Cham.Transparency = 1;
