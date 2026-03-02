@@ -177,7 +177,7 @@
         for i, v in pairs(self.Adornments.O) do
             v:Destroy();
         end;
-        warn 'oh'
+
 		self.Cache[self.Character] = nil;
 	end;
 --]]
