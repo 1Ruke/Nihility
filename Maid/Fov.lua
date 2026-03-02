@@ -9,7 +9,7 @@
 		Enabled: boolean,
 		FovOrigin: string,
 		Size: number,
-		
+
 		Filled: boolean,
 		FilledColor: Color3,
 		FilledGradient: boolean,
@@ -17,13 +17,13 @@
 		FilledGradientRotation: number,
 		FilledTransparency: NumberSequence,
 		FilledGradientColor: ColorSequence,
-		
+
 		FovInlineColor: Color3,
 		FovInlineGradient: boolean,
 		FovInlineGradientSpin: boolean,
 		FovInlineGradientRotation: number,
 		FovInlineGradientColor: ColorSequence,
-		
+
 		GradientRotationSpeed: number,
 	};
 
@@ -33,7 +33,7 @@
 		}, Module);
 
 		self:CreateInstance();
-		
+
 		return self;
 	end;
 --]]
@@ -62,7 +62,7 @@
 		elseif (Settings.FovOrigin == 'ToScreen') then
 			Objects.Main.Position = UDim2.fromOffset(Center.X, Center.Y);
 		end;
-		
+
 		if (Settings.Filled and Settings.FilledGradient) then
 			Objects.Main.Visible = true;
 			Objects.Main.Gradient.Enabled = true;
@@ -74,7 +74,7 @@
 			Objects.Main.BackgroundTransparency = (Settings.FilledTransparency);
 			Objects.Main.Gradient.Color = ColorSequence.new(Settings.FilledColor);
 		end;
-		
+
 		if (Settings.FovInlineGradient) then
 			Objects.Main.Inline.Gradient.Enabled = true;
 			Objects.Main.Inline.Gradient.Color = (Settings.FovInlineGradientColor or ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 21, 142)), ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))})); 
@@ -82,13 +82,13 @@
 			Objects.Main.Inline.Gradient.Enabled = false;
 			Objects.Main.Inline.Color = (Settings.FovInlineColor);
 		end;
-		
+
 		if (Settings.FilledGradientSpin) then
 			Objects.Main.Gradient.Rotation += (Settings.GradientRotationSpeed or 1);
 		else
 			Objects.Main.Gradient.Rotation = (Settings.FilledGradientRotation or -90);
 		end;
-		
+
 		if (Settings.FovInlineGradientSpin) then
 			Objects.Main.Inline.Gradient.Rotation += (Settings.GradientRotationSpeed or 1);
 		else
