@@ -1,6 +1,8 @@
+--// Making this was cancerous
+
 --// Main
-	local Camera, CoreGui, Base, Dirs, Module = cloneref(game.Workspace.CurrentCamera), gethui(), cloneref(game:GetObjects(getcustomasset('Esp.rbxm')))[1], {Vector3.new(-1, -1, -1), Vector3.new(1, -1, -1), Vector3.new(-1, 1, -1), Vector3.new(1, 1, -1), Vector3.new(-1, -1, 1), Vector3.new(1, -1, 1), Vector3.new(-1, 1, 1), Vector3.new(1, 1, 1)}, {Cache = {}};
-	local GuiMain = cloneref(Instance.new("GuiMain", CoreGui));
+	local Camera, CoreGui, Base, Dirs, Module = cloneref(workspace.CurrentCamera), gethui(), game:GetObjects(getcustomasset('Esp.rbxm'))[1], {Vector3.new(-1, -1, -1), Vector3.new(1, -1, -1), Vector3.new(-1, 1, -1), Vector3.new(1, 1, -1), Vector3.new(-1, -1, 1), Vector3.new(1, -1, 1), Vector3.new(-1, 1, 1), Vector3.new(1, 1, 1)}, {Cache = {}};
+	local GuiMain = Instance.new("GuiMain", CoreGui);
 	GuiMain.IgnoreGuiInset = (true);
 
 	Module.__index = Module;
@@ -10,14 +12,20 @@
 
 		Name: boolean,
 		NameColor: Color3,
-	
+
 		Box: boolean,
-		BoxColor: Color3,
-		BoxFilled: boolean,
-		BoxGradient: boolean,
-		BoxGradientColor: ColorSequence,
-		BoxTransparency: NumberSequence,
-	
+		InlineBoxColor: Color3,
+		InlineGradient: boolean,
+		InlineGradientSpin: boolean,
+		InlineGradientColor: ColorSequence,
+
+		FilledBox: boolean,
+		FilledColor: Color3,
+		FilledGradient: boolean,
+		FilledGradientSpin: boolean,
+		FilledGradientColor: ColorSequence,
+		FilledTransparency: NumberSequence,
+
 		Weapon: boolean,
 		WeaponColor: Color3,
 
@@ -26,17 +34,22 @@
 
 		HealthBar: boolean,
 		HealthNumber: boolean,
-		HealthBarSide: string,
-	
-		Cham: boolean,
-		ChamType: string,
-		ChamColor: Color3,
-		ChamOcclusion: boolean,
-	
-		Flags: boolean,
-		_Flags: {string},
-	
+		-- HealthBarSide: string,
+
+		Chams: boolean,
+		VisChamType: string,
+        OccChamType: string,
+		VisChamColor: Color3,
+        OccChamColor: Color3,
+		VisChamTransparency: number,
+        OccChamTransparency: number,
+
+		-- Flags: boolean, // Todo (again) lmao
+		-- _Flags: {string},
+
 		MaxDistance: number,
+
+		GradientRotationSpeed: number,
 	};
 
 	Module.new = function(Char: Model)
@@ -44,7 +57,7 @@
 			HealthPercent = 1,
 			Character = Char,
 			Connections = {},
-			Adornments = {},
+			Adornments = {V = {}, O = {}},
 			Children = {},
 			Objects = {},
 			Distance = 0,
@@ -59,30 +72,46 @@
 			local v = Children[i];
 			self.Children[v.Name] = v;
 
-			if (not v:IsA("BasePart") or v.Name == 'HumanoidRootPart') then continue end;
+			if (not v:IsA("BasePart") or v.Name == 'HumanoidRootPart' or v.Name == 'FaceHitBox' or v.Name == 'HeadTopHitBox') then continue end;
 
 			if v.Name == 'Head' then
-				local HCham = cloneref(Instance.new('SphereHandleAdornment'));
-				HCham.Adornee = (v);
-				HCham.Name = (v.Name);
-				HCham.Transparency = 1;
-				HCham.Radius = (0.6967);
-				HCham.Parent = (CoreGui);
-				table.insert(self.Adornments, HCham);
+				local VHCham = Instance.new('SphereHandleAdornment');
+				VHCham.Adornee = (v);
+				VHCham.Name = (v.Name);
+				VHCham.Transparency = 1;
+				VHCham.Radius = (0.6967);
+				VHCham.Parent = (CoreGui);
+				table.insert(self.Adornments.V, VHCham);
+
+				local IHCham = Instance.new('SphereHandleAdornment');
+				IHCham.Adornee = (v);
+				IHCham.Name = (v.Name);
+				IHCham.Transparency = 1;
+				IHCham.Radius = (0.6966);
+				IHCham.Parent = (CoreGui);
+				table.insert(self.Adornments.O, IHCham);
 				continue
 			end;
 
-			local Cham = cloneref(Instance.new('BoxHandleAdornment'));
-			Cham.Adornee = (v);
-			Cham.Name = (v.Name);
-			Cham.Transparency = 1;
-			Cham.Parent = (CoreGui);
-			Cham.Size = (v.Size + Vector3.new(0.1, 0.1, 0.1));
-			table.insert(self.Adornments, Cham);
+			local VCham = Instance.new('BoxHandleAdornment');
+			VCham.Adornee = (v);
+			VCham.Name = (v.Name);
+			VCham.Transparency = 1;
+			VCham.Parent = (CoreGui);
+			VCham.Size = (v.Size + Vector3.new((32 ^ - 10), (32 ^ -10), (32 ^ -10)));
+			table.insert(self.Adornments.V, VCham);
+
+			local OCham = Instance.new('BoxHandleAdornment');
+			OCham.Adornee = (v);
+			OCham.Name = (v.Name);
+			OCham.Transparency = 1;
+			OCham.Parent = (CoreGui);
+			OCham.Size = (v.Size + Vector3.new((32 ^ -10000), (32 ^ -10000), (32 ^ -10000)));
+			table.insert(self.Adornments.O, OCham);
 		end;
 
 		table.insert(self.Connections, self.Children.Humanoid.AncestryChanged:Connect(function() 
-			self:Destroy();	
+			self:Destroy();
 		end));
 
 		--// Initial
@@ -122,6 +151,14 @@
 		for i, v in pairs(self.Objects) do
 			v.Visible = (false);
 		end;
+
+        for i, v in pairs(self.Adornments.V) do
+            v.Transparency = 1;
+        end;
+
+        for i, v in pairs(self.Adornments.O) do
+            v.Transparency = 1;
+        end;
 	end;
 
 	Module.Destroy = function(self)
@@ -133,6 +170,14 @@
 			v:Destroy();
 		end;
 
+        for i, v in pairs(self.Adornments.V) do
+            v:Destroy();
+        end;
+
+        for i, v in pairs(self.Adornments.O) do
+            v:Destroy();
+        end;
+        warn 'oh'
 		self.Cache[self.Character] = nil;
 	end;
 --]]
@@ -165,21 +210,41 @@
 	Module.RenderBox = function(self, Top, Bottom, Left, Right, Settings)
 		local Objects = (self.Objects);
 		if (not Settings.Box) then Objects.Box.Visible = (false); return; end;
-		Objects.Box.Inline.Color = Settings.BoxColor;
+
 		Objects.Box.Position = UDim2.fromOffset(Left - 2, Top - 2);
 		Objects.Box.Size = UDim2.fromOffset((Right - Left) + 2 * 2, (Bottom - Top) + 2 * 2);
-		if (not Settings.BoxFilled) then Objects.Box.Transparency = 1; return end;
-		if (Settings.BoxFilled and Settings.BoxGradient) then
+
+		if (Settings.InlineGradient) then
+			Objects.Box.Inline.Gradient.Enabled = (true);
+			Objects.Box.Inline.Gradient.Color = (Settings.InlineGradientColor);
+		else
+			Objects.Box.Inline.Gradient.Enabled = (false);
+			Objects.Box.Inline.Color = (Settings.InlineBoxColor);
+		end;
+
+		if (Settings.FilledBox and Settings.FilledGradient) then
 			Objects.Box.Visible = (true)
 			Objects.Box.Transparency = 0;
 			Objects.Box.Gradient.Enabled = (true);
-			Objects.Box.Gradient.Transparency = (Settings.BoxTransparency);
-			Objects.Box.Gradient.Color = (Settings.BoxGradientColor);
-		elseif (Settings.BoxFilled and not Settings.BoxGradient) then
+			Objects.Box.Gradient.Color = (Settings.FilledColor);
+			Objects.Box.Gradient.Transparency = (Settings.FilledTransparency);
+		elseif (Settings.FilledBox and not Settings.FilledGradient) then
 			Objects.Box.Transparency = 0;
 			Objects.Box.Gradient.Enabled = (false);
-			Objects.Box.Transparency = (Settings.BoxTransparency);
-			Objects.Box.Gradient.Color = (Settings.BoxGradientColor);
+			Objects.Box.Transparency = (Settings.FilledTransparency);
+			Objects.Box.Gradient.Color = (Settings.FilledColor);
+		end;
+
+		if (Settings.InlineGradient and Settings.InlineGradientSpin) then
+			Objects.Box.Inline.Gradient.Rotation += (Settings.GradientRotationSpeed or 1);
+		else
+			Objects.Box.Inline.Gradient.Rotation = (90);
+		end;
+
+		if (Settings.FilledBox and Settings.FilledGradient and Settings.FilledGradientSpin) then
+			Objects.Box.Gradient.Rotation += (Settings.GradientRotationSpeed or 1);
+		else
+			Objects.Box.Gradient.Rotation = (-90);
 		end;
 	end;
 
@@ -209,29 +274,34 @@
 		Objects.Health.Bar.Visible = (true);
 		Objects.Health.Size = UDim2.new(0, Objects.Health.Size.X.Offset, 0, (Bottom - Top) + 8);
 		Objects.Health.Bar.Size = UDim2.new(0, 1, self.HealthPercent, 0);
-
-		if Settings.HealthBarSide == 'Left' then
-			Objects.Health.Position = UDim2.fromOffset((Left - Objects.Health.Size.X.Offset) - 7, (Top + (Bottom - Top) * 0.5 - Objects.Health.Size.Y.Offset * 0.5)); --// Left
-		elseif Settings.HealthBarSide == 'Right' then
-			Objects.Health.Position = UDim2.fromOffset((Right + Objects.Health.Size.X.Offset) + 7, (Top + (Bottom - Top) * 0.5 - Objects.Health.Size.Y.Offset * 0.5)); --// Right
-		end;
+        Objects.Health.Position = UDim2.fromOffset((Left - Objects.Health.Size.X.Offset) - 7, (Top + (Bottom - Top) * 0.5 - Objects.Health.Size.Y.Offset * 0.5));
+        --[[
+            if Settings.HealthBarSide == 'Left' then
+                Objects.Health.Position = UDim2.fromOffset((Left - Objects.Health.Size.X.Offset) - 7, (Top + (Bottom - Top) * 0.5 - Objects.Health.Size.Y.Offset * 0.5)); --// Left
+            elseif Settings.HealthBarSide == 'Right' then
+                Objects.Health.Position = UDim2.fromOffset((Right + Objects.Health.Size.X.Offset) + 7, (Top + (Bottom - Top) * 0.5 - Objects.Health.Size.Y.Offset * 0.5)); --// Right
+            end;
+        ]]
 
 		if (not Settings.HealthNumber) then Objects.Health.Bar.HealthNum.Visible = (false); return end;
 		Objects.Health.Bar.HealthNum.Visible = (true);
 		Objects.Health.Bar.HealthNum.Text = `[{math.floor(self.Health)}]`;
-
-		if Settings.HealthBarSide == 'Left' then
-			Objects.Health.Bar.HealthNum.Position = UDim2.fromOffset(-4, (Objects.Health.Bar.Size.Y.Scale * Objects.Health.Size.Y.Offset) - 4); --// Left
-		elseif Settings.HealthBarSide == 'Right' then
-			Objects.Health.Bar.HealthNum.Position = UDim2.fromOffset(23, (Objects.Health.Bar.Size.Y.Scale * Objects.Health.Size.Y.Offset) - 4); --// Right
-		end;
+        Objects.Health.Bar.HealthNum.Position = UDim2.fromOffset(-4, (Objects.Health.Bar.Size.Y.Scale * Objects.Health.Size.Y.Offset) - 4);
+        
+        --[[
+            if Settings.HealthBarSide == 'Left' then
+                Objects.Health.Bar.HealthNum.Position = UDim2.fromOffset(-4, (Objects.Health.Bar.Size.Y.Scale * Objects.Health.Size.Y.Offset) - 4); --// Left
+            elseif Settings.HealthBarSide == 'Right' then
+                Objects.Health.Bar.HealthNum.Position = UDim2.fromOffset(23, (Objects.Health.Bar.Size.Y.Scale * Objects.Health.Size.Y.Offset) - 4); --// Right
+            end;
+        ]]
 	end;
 
 	Module.RenderDistance = function(self, _, Bottom, Left, Right, Settings)
 		local Objects = (self.Objects);
 		if (not Settings.Distance) then Objects.Distance.Visible = (false); return; end;
 
-		Objects.Distance.Text = math.floor(self.Distance / 3) .. " [M]";
+		Objects.Distance.Text = (`{self.Distance} [M]`);
 		Objects.Distance.Visible = (true);
 		Objects.Distance.Position = UDim2.fromOffset((Left + Right) / 2, Bottom + Objects.Distance.TextSize + (Settings.Weapon and 14 or 4));
 		Objects.Distance.TextColor3 = Settings.DistanceColor;
@@ -239,21 +309,39 @@
 
 	Module.RenderChams = function(self, Settings)
 		if (not Settings.Chams) then return; end;
-		local Adorn = (self.Adornments);
+		local VAdorn, OAdorn = (self.Adornments.V), (self.Adornments.O);
+        --// doesnt go thru
+		for i = 1, #VAdorn do
+			local v = VAdorn[i];
+            v.ZIndex = 3000;
+			v.Color3 = (Settings.OccChamColor);
+			v.Transparency = (Settings.VisChamTransparency);
 
-		for i = 1, #Adorn do
-			local v = Adorn[i];
-			v.Color3 = (Settings.ChamColor);
-			v.Transparency = (Settings.ChamsTransparency);
-			v.ZIndex = (Settings.ChamOcclusion and 0 or -1);
-
-			if (Settings.ChamShading == 'Glow' and not Settings.ChamOcclusion) then
+			if (Settings.VisChamType == 'Glow') then
+				v.Transparency = -1;
+				v.Shading = (Enum.AdornShading.AlwaysOnTop);
+				v.Color3 = (Color3.new((Settings.VisChamColor.R * 100), (Settings.VisChamColor.G * 100), (Settings.VisChamColor.B * 100)));
+			elseif (Settings.VisChamType == 'AlwaysOnTop') then
+				v.Shading = (Enum.AdornShading.AlwaysOnTop);
+			elseif Settings.VisChamType == 'Flat' then
+				v.Shading = (Enum.AdornShading.XRay);
+			elseif Settings.VisChamType == 'FlatShaded' then
+				v.Shading = (Enum.AdornShading.XRayShaded)
+			end;
+		end;
+    --// does go thru
+		for i = 1, #OAdorn do
+			local v = OAdorn[i];
+            v.ZIndex = 2000;
+			v.Color3 = (Settings.VisChamColor);
+			v.Transparency = (Settings.OccChamTransparency);
+			if (Settings.OccChamType == 'Glow' and not Settings.ChamOcclusion) then
 				v.Transparency = -1;
 				v.Shading = (Enum.AdornShading.XRay);
-				v.Color3 = (Color3.new((Settings.ChamColor.R * 500), (Settings.ChamColor.G * 500), (Settings.ChamColor.B * 500)));
-			elseif (Settings.ChamShading == 'AlwaysOnTop') then
+				v.Color3 = (Color3.new((Settings.OccChamColor.R * 100), (Settings.OccChamColor.G * 100), (Settings.OccChamColor.B * 100)));
+			elseif (Settings.OccChamType == 'AlwaysOnTop') then
 				v.Shading = (Enum.AdornShading.AlwaysOnTop);
-			elseif Settings.ChamShading == 'Flat' then
+			elseif Settings.OccChamType == 'Flat' then
 				v.Shading = (Enum.AdornShading.XRay);
 			end;
 		end;
@@ -262,10 +350,11 @@
 
 --// Render
 	Module.Render = function(self, _Settings: settings)
+        if (not self.Children.HumanoidRootPart) then self:Destroy() end;
 		local Top, Bottom, Left, Right = self:GetBoundingBox();
-		self.Distance = (self.Children.HumanoidRootPart.Position - Camera.CFrame.Position).Magnitude;
-		if (self.Distance > _Settings.MaxDistance) then return end;
-		if (not _Settings.Enabled or not Top) then self:Hide() return end;
+		self.Distance = math.floor((self.Children.HumanoidRootPart.Position - Camera.CFrame.Position).Magnitude / 3);
+		if ((not _Settings.Enabled or not Top) or (self.Distance > _Settings.MaxDistance)) then self:Hide(); return; end;
+
 		self:RenderBox(Top, Bottom, Left, Right, _Settings);
 		self:RenderName(Top, Bottom, Left, Right, _Settings);
 		self:RenderWeapon(Top, Bottom, Left, Right, _Settings);
