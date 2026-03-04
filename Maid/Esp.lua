@@ -1,7 +1,7 @@
 --// Making this was cancerous
 
 --// Main
-	local Camera, CoreGui, Base, Dirs, Module = cloneref(workspace.CurrentCamera), gethui(), game:GetObjects(getcustomasset('Esp.rbxm'))[1], {Vector3.new(-1 -1 -1), Vector3.new(1 -1 -1), Vector3.new(-1, 1 -1), Vector3.new(1, 1 -1), Vector3.new(-1 -1, 1), Vector3.new(1 -1, 1), Vector3.new(-1, 1, 1), Vector3.new(1, 1, 1)}, {Cache = {}};
+	local Camera, CoreGui, Base, Dirs, Module = cloneref(workspace.CurrentCamera), gethui(), game:GetObjects(getcustomasset('Esp.rbxm'))[1], {Vector3.new(-1, -1, -1), Vector3.new(1, -1, -1), Vector3.new(-1, 1, -1), Vector3.new(1, 1, -1), Vector3.new(-1, -1, 1), Vector3.new(1, -1, 1), Vector3.new(-1, 1, 1), Vector3.new(1, 1, 1)}, {Cache = {}};
 	local GuiMain = Instance.new("GuiMain", CoreGui);
 	GuiMain.IgnoreGuiInset = (true);
 
@@ -186,7 +186,6 @@
 --]]
 
 --// Objects
-    --// Old math fine man
 	Module.GetBoundingBox = function(self: table)
 		local Top, Bottom, Left, Right, Valid = (math.huge), (-math.huge), (math.huge), (-math.huge), (false);
 		for _, Part in pairs(self.Children) do
