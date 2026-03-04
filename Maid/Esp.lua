@@ -34,7 +34,7 @@
 
 		HealthBar: boolean,
 		HealthNumber: boolean,
-		-- HealthBarSide: string,
+		-- HealthBarSide: string, --// Gay
 
 		Chams: boolean,
 		VisChamType: string,
@@ -186,30 +186,32 @@
 --]]
 
 --// Objects
-	Module.GetBoundingBox = function(self)
-		local Top: number, Bottom: number, Left: number, Right: number, Valid = (math.huge), (-math.huge), (math.huge), (-math.huge), (false);
+    --// Old math fine man
+	Module.GetBoundingBox = function(self: table)
+		local Top, Bottom, Left, Right, Valid = (math.huge), (-math.huge), (math.huge), (-math.huge), (false);
 		for _, Part in pairs(self.Children) do
-			if (typeof(Part) ~= 'Instance' or not Part:IsA('BasePart')) then continue end;
+			if (typeof(Part) == 'Instance' and Part:IsA('BasePart')) then
 				local Size = (Part.Size * 0.5);
 				for i = 1, #Dirs do
-					Dir = (Dirs[i]);
-					local Point, OnScreen = Wtp(Part.CFrame * Vector3.new((Dir.X * Size.X), ( Dir.Y * Size.Y), (Dir.Z * Size.Z)));
-					if (not OnScreen) then
-                        self:Hide();
-                        continue;
-                    else
+					Dir = Dirs[i];
+					local Point, OnScreen = Wtp(Part.CFrame * Vector3.new(Dir.X * Size.X, Dir.Y * Size.Y, Dir.Z * Size.Z));
+					if (OnScreen) then
+						Valid = (true);
 						Top = math.min(Top, Point.Y);
 						Bottom = math.max(Bottom, Point.Y);
 						Left = math.min(Left, Point.X);
 						Right = math.max(Right, Point.X);
-                        Valid = (true);
+                    else
+                        self:Hide();
+                        continue;
 					end;
 				end;
 			end;
+		end;
 
-		if ((not Valid) or (Left >= Right) or (Top >= Bottom)) then return nil; end;
+		if ((not Valid) or (Left >= Right) or (Top >= Bottom)) then return nil end;
 
-		return (Top), (Bottom), (Left), (Right);
+		return Top, Bottom, Left, Right;
 	end;
 
 	Module.RenderBox = function(self: table, Top: number, Bottom: number, Left: number, Right: number, Settings: table)
